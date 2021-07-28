@@ -1,0 +1,1 @@
+A simple book library using vanilla JS
