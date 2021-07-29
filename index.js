@@ -4,7 +4,7 @@ const fiction = document.querySelector('#fiction');
 const programming = document.querySelector('#programming');
 const cooking = document.querySelector('#cooking');
 const libraryForm = document.getElementById('libraryForm');
-const table = document.querySelector('.table-body');
+const tableBody = document.querySelector('#table-body');
 
 // Book constructor function
 function Book(title, author, type) {
@@ -16,27 +16,24 @@ function Book(title, author, type) {
 // Display Constructor
 function Display(book){
     console.log(book);
+}
+
+// Add methods to display prototype
+Display.prototype.add = function(book) {
     let tr = `<tr>
-                <th scope="row">${2}</th>
+                <th scope="row">-</th>
                 <td>${book.title}</td>
                 <td>${book.author}</td>
                 <td>${book.type}</td>
               </tr>`;
-    console.log(table, tr);
-    table.insertRow(tr);
-}
-
-// Add methods to display prototype
-Display.prototype.add = function() {
-    
+    tableBody.innerHTML += tr;
 } 
 
 
 // Clear Display
 Display.prototype.clear = function() {
-    
+    libraryForm.reset();
 }
-// Add submit event listener
 
 libraryForm.addEventListener('submit', libraryFormSubmit);
 
