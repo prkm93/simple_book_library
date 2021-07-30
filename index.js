@@ -6,7 +6,7 @@ const cooking = document.querySelector('#cooking');
 const libraryForm = document.getElementById('libraryForm');
 const tableBody = document.querySelector('#table-body');
 const successMessage = document.querySelector('#message');
-
+let id= 0;
 // Book constructor function
 function Book(title, author, type) {
     this.title = title;
@@ -15,8 +15,7 @@ function Book(title, author, type) {
 }
 
 // Display Constructor
-function Display(book){
-    console.log(book);
+function Display(){
 }
 
 
@@ -28,9 +27,9 @@ Display.prototype.validate = function(book) {
     }
 }
 
-Display.prototype.show = function(type) {
+Display.prototype.show = function(type, message) {
     successMessage.innerHTML = `<div class="alert alert-${type} alert-dismissible fade show mt-4" role="alert">
-                                    <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+                                    <strong>Message: </strong> ${message}
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                     </button>
@@ -41,15 +40,17 @@ Display.prototype.show = function(type) {
 }
 
 // Add methods to display prototype
-Display.prototype.add = function(book) {
+Display.prototype.add = function() {
+    let book = JSON.parse(localStorage.getItem('book'));
+    id++;
     let tr = `<tr>
-            <th scope="row">-</th>
-            <td>${book.title}</td>
-            <td>${book.author}</td>
-            <td>${book.type}</td>
-            </tr>`;
+                <th scope="row">${id}</th>
+                <td>${book.title}</td>
+                <td>${book.author}</td>
+                <td>${book.type}</td>
+              </tr>`;
     tableBody.innerHTML += tr;
-   
+    
 }
 
 // Clear Display
@@ -73,12 +74,13 @@ function libraryFormSubmit(e) {
     
     let book = new Book(title.value, author.value, type);
     let display = new Display();
-
+    console.log("book", book);
+    localStorage.setItem('book', JSON.stringify(book));
     if (display.validate(book)) {
-        display.add(book);
+        display.add();
         display.clear();
-        display.show('success');
+        display.show('success', 'Book added successfully');
     } else {
-        display.show('danger');
+        display.show('danger', 'Please enter valid books');
     }   
 }
